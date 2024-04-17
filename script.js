@@ -6,6 +6,7 @@ let fighting;
 let monsterHealth;
 let inventory = ["stick"];
 
+//Accéder et de manipuler les éléments HTML correspondants  dans le script
 const button1 = document.querySelector('#button1');
 const button2 = document.querySelector("#button2");
 const button3 = document.querySelector("#button3");
@@ -16,12 +17,15 @@ const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
 const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
+
+//tableau des armes
 const weapons = [
   { name: 'stick', power: 5 },
   { name: 'dagger', power: 30 },
   { name: 'claw hammer', power: 50 },
   { name: 'sword', power: 100 }
 ];
+//tableau des monstres
 const monsters = [
   {
     name: "slime",
@@ -39,6 +43,8 @@ const monsters = [
     health: 300
   }
 ]
+
+//tableau des lieux
 const locations = [
   {
     name: "town square",
@@ -67,7 +73,7 @@ const locations = [
   {
     name: "kill monster",
     "button text": ["Go to town square", "Go to town square", "Go to town square"],
-    "button functions": [goTown, goTown, goTown],
+    "button functions": [goTown, goTown, easterEgg ],
     text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
   },
   {
@@ -95,8 +101,11 @@ button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
 
+//
 function update(location) {
+  //Masquer l’élément HTML avec l’ID “monsterStats”
   monsterStats.style.display = "none";
+  //met à jour le texte du 1er bt (avec l’ID “button1”) avec [0] de l’objet location
   button1.innerText = location["button text"][0];
   button2.innerText = location["button text"][1];
   button3.innerText = location["button text"][2];
@@ -277,5 +286,12 @@ function pick(guess) {
     text.innerText += "Right! You win 20 gold!";
     gold += 20;
     goldText.innerText = gold;
+  } else {
+    text.innerText += "Wrong! You lose 10 health!";
+    health -= 10;
+    healthText.innerText = health;
+    if (health <= 0) {
+      lose();
+    }
   }
 }
